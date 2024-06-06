@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+<body>
+    <section class="sub-header1">
+        <nav>
+            <a href="index.html"><img src="images/logo.png"></a>
+            <div class="nav-links" id="navLinks">
+                <i class="fa fa-times" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="pets.html">PETS</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="contact.html">CONTACT US</a></li>
+                </ul>
+            </div>
+            <i class="fa fa-bars" onclick="showMenu()"></i>
+        </nav>
+    </section>
+
+    <section class="pets">
+    <h1>Pet Gallery</h1>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search for pets by name...">
+    </div>
+	<div class="pet-type-buttons">
+		<button onclick="fetchPets('dogs', '', this)" class="button button1 active">Dogs</button>
+		<button onclick="fetchPets('cats', '', this)" class="button button1">Cats</button>
+		<button onclick="fetchPets('birds', '', this)" class="button button1">Birds</button>
+	</div>
+
+    <div class="gallery" id="petGallery"></div>
+    </section>
+
+
+    <div class="popup" id="popup">
+        <div class="popup-content" id="popupContent"></div>
+    </div>
+	
+	<section class="footer">
+	<h4>Pet Expo</h4>
+	<p>Your ultimate destination for discovering the wonderful world of pets! <br>
+	We bring pet lovers closer to their furry  friends by providing a comprehensive catalog of animals</p>
+	<div class="icons">
+	   <i class="fa fa-facebook"></i>
+	   <i class="fa fa-whatsapp"></i>
+	   <i class="fa fa-instagram"></i>
+	   <i class="fa fa-linkedin"></i>
+	</div>
+	</section>
+
+    <script>
+        const petGallery = document.getElementById('petGallery');
+		const popup = document.getElementById('popup');
+		const popupContent = document.getElementById('popupContent');
+		const searchInput = document.getElementById('searchInput');
+
+		async function fetchPets(type = 'dogs', query = '', button = null) {
+			if (button) {
+				document.querySelectorAll('.pet-type-buttons .button').forEach(btn => btn.classList.remove('active'));
+				button.classList.add('active');
+			}
+			let apiUrl = `https://freetestapi.com/api/v1/${type}?search=${query}`;
+			const response = await fetch(apiUrl);
+			const pets = await response.json();
+			displayPets(pets, type);
+		}
+
+
+		function displayPets(pets, type) {
+			petGallery.innerHTML = '';
+			pets.forEach(pet => {
+				const card = document.createElement('div');
+				card.className = 'card';
+				let content = '';
+
+				if (type === 'dogs') {
+					content = `
+					<img src= "dogs/dog_${pet.id}.jpg"> 
+					<h3>${pet.name}</h3>
+					<p>Origin: ${pet.origin}</p>
+					`;
+				} else if (type === 'cats') {
+					content = `
+					<img src="cats/cat_${pet.id}.jpg"> 
+					<h3>${pet.name}</h3>
+					<p>Origin: ${pet.origin}</p>
+				`;
+				} else if (type === 'birds') {
+					content = `
+					<img src="birds/bird_${pet.id}.jpg"> 
+					<h3>${pet.name}</h3>
+					<p>Species: ${pet.species}</p>
+					`;
+				}
+
+				card.innerHTML = content;
+				card.addEventListener('click', () => showPopup(pet, type));
+				petGallery.appendChild(card);
+			});
+		}
+
+		function showPopup(pet, type) {
+			let content = '';
+
+			if (type === 'dogs') {
+				content = `
+				<h2>${pet.name}</h2>
+				<img src= "dogs/dog_${pet.id}.jpg">
+				<p><strong>Breed Group:</strong> ${pet.breed_group}</p>
+				<p><strong>Size:</strong> ${pet.size}</p>
+				<p><strong>Lifespan:</strong> ${pet.lifespan}</p>
+				<p><strong>Origin:</strong> ${pet.origin}</p>
+				<p><strong>Temperament:</strong> ${pet.temperament}</p>
+				<p><strong>Colors:</strong> ${pet.colors.join(', ')}</p>
+				<p>${pet.description}</p>
+				`;
+			} else if (type === 'cats') {
+				content = `
+				<h2>${pet.name}</h2>
+				<img src="cats/cat_${pet.id}.jpg"> 
+				<p><strong>Origin:</strong> ${pet.origin}</p>
+				<p><strong>Temperament:</strong> ${pet.temperament}</p>
+				<p><strong>Colors:</strong> ${pet.colors.join(', ')}</p>
+				<p>${pet.description}</p>
+				`;
+			} else if (type === 'birds') {
+				content = `
+				<h2>${pet.name}</h2>
+				<img src="birds/bird_${pet.id}.jpg"> 
+				<p><strong>Species:</strong> ${pet.species}</p>
+				<p><strong>Family:</strong> ${pet.family}</p>
+				<p><strong>Habitat:</strong> ${pet.habitat}</p>
+				<p><strong>Place of Found:</strong> ${pet.place_of_found}</p>
+				<p><strong>Diet:</strong> ${pet.diet}</p>
+				<p><strong>Weight (kg):</strong> ${pet.weight_kg}</p>
+				<p><strong>Height (cm):</strong> ${pet.height_cm}</p>
+				<p>${pet.description}</p>
+				`;
+			}
+
+			popupContent.innerHTML = content;
+			popupContent.innerHTML += '<button onclick="hidePopup()">Close</button>';
+			popup.style.display = 'flex';
+		}
+
+		function hidePopup() {
+			popup.style.display = 'none';
+		}
+
+		
+		searchInput.addEventListener('input', (e) => {
+			const query = e.target.value;
+			const activeButton = document.querySelector('.pet-type-buttons .active');
+			const type = document.querySelector('.pet-type-buttons .active')? document.querySelector('.pet-type-buttons .active').textContent.toLowerCase() : 'cats';
+			fetchPets(type, query);
+		});
+
+
+		fetchPets(); // Default to fetching dogs on initial load
+
+	</script>
+</body>
+</html>
+
+  

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="with=device-width, initial-scale=1.0">
+      <title>Pet Expo Website</title>
+	  <link rel="stylesheet" href="styles.css">
+	  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+    <section class="header">
+	<nav>
+	<a href="index.html"><img src="images/logo.png"></a>
+	<div class="nav-links" id="navLinks">
+	<i class="fa fa-times" onclick="hideMenu()"></i>
+	<ul>
+	<li><a href="index.html">HOME</a></li>
+	<li><a href="pets.html">PETS</a></li>
+	<li><a href="about.html">ABOUT</a></li>
+	<li><a href="contact.html">CONTACT US</a></li>
+	</ul>
+	</div>
+	<i class="fa fa-bars" onclick="showMenu()"></i>
+	</nav>
+	
+	<div class="text-box">
+	<h1>PET EXPO CATALOGUE</h1>
+	<p>Here you can view our pet gallery</p>
+	<a href="pets.html" class="hero-btn">Click to view</a>
+	</div>
+	</section>
+	
+	<section class="pet">
+	    <h1> Pet types</h1>
+		<p>See our gallery for examples of beautifully arranged pets in the following three categories: dogs, cats, and birds. Simply look up each type by name to learn more in-depth details on the furry, feathery, or scaled pet of your choice.</p>
+		
+		<div class="row">
+		   <div class="pet-col">
+		    <img src="images/cat.jpg">
+			   <div class="layer">
+			   <h3>CATS</h3>
+			   </div>
+			</div>
+			
+			<div class="pet-col">
+		    <img src="images/dog.jpg">
+			   <div class="layer">
+			   <h3>DOGS</h3>
+			   </div>
+			</div>
+			
+			<div class="pet-col">
+		    <img src="images/bird.jpg">
+			   <div class="layer">
+			   <h3>BIRDS</h3>
+			   </div>
+			</div>
+		</div>
+		
+	</section>
+	
+	<section class="footer">
+	<h4>Pet Expo</h4>
+	<p>Your ultimate destination for discovering the wonderful world of pets! <br>
+	We bring pet lovers closer to their furry  friends by providing a comprehensive catalog of animals</p>
+	<div class="icons">
+	   <i class="fa fa-facebook"></i>
+	   <i class="fa fa-whatsapp"></i>
+	   <i class="fa fa-instagram"></i>
+	   <i class="fa fa-linkedin"></i>
+	</div>
+	</section>
+	
+	<script>
+	var navLinks=document.getElementById("navLinks");
+	
+	function showMenu(){
+	navLinks.style.right="0";
+	}
+	
+	function hideMenu(){
+	navLinks.style.right="-200px";
+	}
+	</script>
+
+</body>
+</html>
